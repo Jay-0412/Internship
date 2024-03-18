@@ -1,1 +1,23 @@
-
+Answers :-
+1 - 15
+2 - Filter
+3 - Tuple
+4 - Error
+5 - Raise
+6 - Datetime
+7 - 208
+8 - Strptime
+9 - Immutable
+10 - Range()
+11 - Lambda Function
+12 - Both A and B
+13 - Dump() Method
+14 - Load()
+15 - All of the mentioned above
+16 - Both A and B
+17 - captains = {dict}
+18 - (C) =>captains = {"Enterprise": 
+      "Picard","Voyager":"Janeway","Defiant": "Sisko",}
+19 - (B) => for ship, captain in captains.items():
+      print(f"The {ship} is captained by {captain}.")
+20 - del captains["Discovery"]
