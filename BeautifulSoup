@@ -50,3 +50,17 @@ for i in soup.find_all("img",class_="no-img"):
 images
  
 4)
+page = requests.get("https://presidentofindia.nic.in/former-presidents",verify=False)
+soup = BeautifulSoup(page.content)
+
+names = []
+for i in soup.find_all("div",class_="desc-sec"):
+    names.append(i.text.replace("\n"," "))
+names
+
+term = []
+for i in soup.find_all("span",class_="bot-txt"):
+    term.append(i.text)
+
+df = pd.DataFrame({"Name_of_President":names})
+df
