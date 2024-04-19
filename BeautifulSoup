@@ -1,0 +1,52 @@
+1)
+  import requests
+  from bs4 import BeautifulSoup
+  html = requests.get('https://www.wikipedia.org/',verify=False)html
+  soup = BeautifulSoup(html.content)
+  header_tags = soup.find_all(['h1', 'h2'])
+  print(header_tags)
+
+2)
+ page = requests.get("https://www.imdb.com/list/ls091520106/",verify=False)
+ soup = BeautifulSoup(page.content)
+ Names = []
+ for i in soup.find_all(class_="lister-item-header"):
+    Names.append(i.text.replace("\n"," "))
+ Names
+ Rating = []
+ for i in soup.find_all("div",class_="ipl-rating-widget"):
+    Rating.append(i.text.replace("\n"," "))
+ Rating
+ Year_of_release = []
+ for i in soup.find_all("span",class_="lister-item-year text-muted unbold"):
+    Year_of_release.append(i.text)
+ Year_of_release
+ import pandas as pd
+ df = pd.DataFrame({"Names":Names,"Rating":Rating,"Year_of_release":Year_of_release})
+ df
+
+3)
+page = requests.get("https://www.dineout.co.in/delhi-restaurants/buffet-special",verify = False)
+soup = BeautifulSoup(page.content)
+Restaurant_name = []
+for i in soup.find_all("div",class_="restnt-info cursor"):
+    Restaurant_name.append(i.text)
+Restaurant_name
+Cuisine = []
+for i in soup.find_all("span",class_="double-line-ellipsis"):
+    Cuisine.append(i.text)
+Cuisine
+loc = []
+for i in soup.find_all("div",class_="restnt-loc ellipsis"):
+    loc.append(i.text)
+loc
+Rating = []
+for i in soup.find_all("div",class_="restnt-rating rating-4"):
+    Rating.append(i.text)
+Rating
+images = []
+for i in soup.find_all("img",class_="no-img"):
+    images.append(i["data-src"])
+images
+ 
+4)
