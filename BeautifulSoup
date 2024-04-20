@@ -62,5 +62,5 @@ term = []
 for i in soup.find_all("span",class_="bot-txt"):
     term.append(i.text)
 
-df = pd.DataFrame({"Name_of_President":names})
+df = pd.DataFrame({"Name_of_President":names,"Term_of_office":term})
 df
