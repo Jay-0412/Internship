@@ -1,1 +1,24 @@
+ANSWERS:-
+1)
+page = requests.get("https://www.imdb.com/list/ls056092300/",verify=False)
+soup = BeautifulSoup(page.content)
+Names = []
+for i in soup.find_all(class_="lister-item-header"):
+    Names.append(i.text.replace("\n"," "))
+Names   
+
+Rating = []
+for i in soup.find_all("div",class_="ipl-rating-widget"):
+    Rating.append(i.text.replace("\n"," "))
+Rating
+
+Year_of_release = []
+for i in soup.find_all("span",class_="lister-item-year text-muted unbold"):
+    Year_of_release.append(i.text)
+Year_of_release
+import pandas as pd
+df = pd.DataFrame({"Names":Names,"Rating":Rating,"Year_of_release":Year_of_release})
+df
+
+2)
 
