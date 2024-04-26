@@ -19,62 +19,9 @@ df = pd.DataFrame({"Names":Names,"Rating":Rating,"Year_of_release":Year_of_relea
 df
 
 2)
-page = requests.get("https://peachmode.com/pages/search?q=bags",verify=False)
-page
-soup = BeautifulSoup(page.content)
-soup
-product_name = []
-for i in soup.find_all("div",class_="product-title"):
-    product_name.append(i.text)
-product_name
-price = []
-for i in soup.find_all("span",class_="price st-money money done"):
-    price.append(i.text)
-price
-discount = []
-for i in soup.find_all("span",class_="discounted_price st-money money done"):
-    discont.append(i.text)
-discount
-
 3)
-(a)
-page = requests.get("https://www.icc-cricket.com/",verify=False)
-soup = BeautifulSoup(page.content,"html.parser")
-name = []
-for i in soup.find_all(class_="si-team-name"):
-    name.append(i.text)
-name
-matches = []
-for i in soup.find_all("div",class_="si-table-data si-matches"):
-    matches.append(i.text)
-matches
-points = []
-for i in soup.find_all("div",class_="si-table-data si-pts"):
-    points.append(i.text)
-points
-rating = []
-for i in soup.find_all("div",class_="si-table-data si-rating"):
-    rating.append(i.text)
-rating
-(b)
-Team = []
-for i in soup.find_all("span",class_="si-sname si-text"):
-    Team.append(i.text)
-Team
-Rating = []
-for i in soup.find_all("div",class_="si-table-data si-rating"):
-    Rating.append(i.text)
-Rating
-(c)
-Team = []
-for i in soup.find_all("span",class_="si-team-name"):
-    Team.append(i.text)
-Rating = []
-for i in soup.find_all("div",class_="si-table-data si-rating"):
-    Rating.append(i.text)
 
-4)
-page = requests.get("https://www.patreon.com/coreyms",verify=False)
+4) page = requests.get("https://www.patreon.com/coreyms",verify=False)
 page
 soup = BeautifulSoup(page.content)
 soup
