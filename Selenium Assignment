@@ -1,1 +1,174 @@
+=> 1
+import selenium
+import pandas as pd
+from selenium import webdriver
+import warnings
+warnings.filterwarnings("ignore")
+from selenium.webdriver.common.by import By
+import time
 
+driver = webdriver.Chrome()
+driver.get("https://www.naukri.com/")
+designation = driver.find_element(By.CLASS_NAME,"suggestor-input ")
+designation.send_keys("Data Scientist")
+search = driver.find_element(By.CLASS_NAME,"qsbSubmit")
+search.click()
+job_title = []
+job_location = []
+company_name = []
+experience_required = []
+title_tags = driver.find_elements(By.XPATH,'//div[@class="cust-job-tuple layout-wrapper lay-2 sjw__tuple" ]/div/a')
+for i in title_tags:
+    title=i.text
+    job_title.append(title)
+location_tags = driver.find_elements(By.XPATH,'//span[@class="locWdth"]')
+for i in location_tags:
+    location=i.text
+    job_location.append(location)
+company_tags = driver.find_elements(By.XPATH,'//div[@class=" row2"]/span/a[1]')
+for i in company_tags:
+    company=i.text
+    company_name.append(company)
+exp_tags = driver.find_elements(By.XPATH,'//span[@class="expwdth"]')
+for i in exp_tags:
+    exp=i.text
+    experience_required.append(exp)
+print(len(job_title),len(job_location),len(company_name),len(experience_required))
+import pandas as pd
+df = pd.DataFrame({"Title":job_title,"Location":job_location,"Company_Name":company_name,"Experience":experience_required})
+print(df.head(10))
+
+=> 2
+driver = webdriver.Chrome()
+driver.get("https://www.shine.com/") 
+desgn = driver.find_element(By.CLASS_NAME,'form-control  ')
+desgn.send_keys("Data Analyst")
+Loc = driver.find_element(By.XPATH,"/html/body/div/div[4]/div/div[2]/div[2]/div/form/div/div[1]/ul/li[2]/div/input")
+Loc.send_keys("Bangalore")
+search = driver.find_element(By.CLASS_NAME,'searchForm_btnWrap_advance__VYBHN')
+search.click()
+job_title = []
+job_location = []
+company_name = []
+exp_required = []
+title_tag = driver.find_elements(By.CLASS_NAME,"jobCard_jobCard_features__wJid6")
+for i in title_tag:
+    title=i.text
+    job_title.append(title)
+locn_tag = driver.find_elements(By.CLASS_NAME,"jobCard_jobCard_lists_item__YxRkV jobCard_locationIcon__zrWt2")
+for i in locn_tag:
+    location=i.text
+    job_location.append(location)
+com_name = driver.find_elements(By.CLASS_NAME,'jobCard_jobCard_cName__mYnow')
+for i in com_name:
+    company=i.text
+    company_name.append(company)
+exp_tag = driver.find_elements(By.CLASS_NAME,"jobCard_jobCard_lists_item__YxRkV jobCard_jobIcon__3FB1t")
+for i in exp_tag:
+    experience=i.text
+    exp_required.append(experience)
+print(len(job_title),len(job_location),len(company_name),len(exp_required))
+df = pd.DataFrame({"Title":job_title,"Location":job_location,"Company_Name":company_name,"Experience":exp_required})
+print(df.head(10))
+
+=> 3
+driver = webdriver.Chrome()
+driver.get("https://www.flipkart.com/apple-iphone-11-black-64-gb/product-reviews/itm4e5041ba101fd?pid=MOBFWQ6BXGJCEYNY&lid=LSTMOBFWQ6BXGJCEYNYZXSHRJ&marketplace=FLIPKART")
+Ratings = []
+Review_summary = []
+Full_review = []
+rating_tag = driver.find_elements(By.CLASS_NAME,"XQDdHH Ga3i8K")
+for i in rating_tag:
+    rat=i.text
+    Ratings.append(rat)
+review_tag = driver.find_elements(By.CLASS_NAME,"z9E0IG")
+for i in review_tag:
+    rev=i.text
+    Review_summary.append(rev)
+full_rev_tag = driver.find_elements(By.CLASS_NAME,"ZmyHeo")
+for i in full_rev_tag:
+    full=i.text
+    Full_review.append(full)
+=> 4
+driver = webdriver.Chrome()
+driver.get("https://www.flipkart.com/search?q=sneakers&as=on&as-show=on&otracker=AS_Query_OrganicAutoSuggest_4_4_na_na_na&otracker1=AS_Query_OrganicAutoSuggest_4_4_na_na_na&as-pos=4&as-type=RECENT&suggestionId=sneakers&requestId=0ed655bd-e703-44fe-90e1-44e4f47eacd7&as-backfill=on")
+Brand = []
+Product_description = []
+Price = []
+brand_tag = driver.find_elements(By.CLASS_NAME,"syl9yP")
+for i in brand_tag:
+    brand=i.text
+    Brand.append(brand)
+descrip_tag = driver.find_elements(By.XPATH,'//div[@class="hCKiGj"]/div/a')
+for i in descrip_tag:
+    desc=i.text
+    Product_description.append(desc)
+rate_tag = driver.find_elements(By.CLASS_NAME,"Nx9bqj")
+for i in rate_tag:
+    price=i.text
+    Price.append(price)
+=> 5
+driver = webdriver.Chrome()
+driver.get("https://www.amazon.in/s?k=laptop&rh=n%3A976392031%2Cp_n_feature_thirteen_browse-bin%3A12598163031&dc&ds=v1%3AoutmBQ6rf2QAmIPFg0mlE0A2RaUj1lYLVBkpKf5Qieo&qid=1716915916&rnid=12598141031&ref=sr_nr_p_n_feature_thirteen_browse-bin_9")
+Title =[]
+Ratings = []
+Price = []
+title_tag = driver.find_elements(By.XPATH,'//h2[@class="a-size-mini a-spacing-none a-color-base s-line-clamp-2"]')
+for i in title_tag:
+    title=i.text
+    Title.append(title)
+print(len(Title))    
+rate_tag = driver.find_elements(By.CLASS_NAME,'a-icon a-icon-star-small a-star-small-4 aok-align-bottom')
+for i in rate_tag:
+    rating=i.text
+    Ratings.append(rating)   
+print(len(Ratings))
+price_tag = driver.find_elements(By.CLASS_NAME,'a-price-whole')
+for i in price_tag:
+    price=i.text
+    Price.append(price)   
+print(len(Price))    
+=> 6
+driver = webdriver.Chrome()
+driver.get("https://www.azquotes.com/top_quotes.html")
+Quote = []
+Author = []
+Type_of_quote = []
+quote_tag = driver.find_elements(By.XPATH,'//a[@class="title"]')
+for i in quote_tag:
+    quote=i.text
+    Quote.append(quote)
+print(len(Quote))
+author_tag = driver.find_elements(By.XPATH,'//a[@class="author"]')
+for i in author_tag:
+    author=i.text
+    Author.append(author)
+type_tag = driver.find_elements(By.XPATH,'//a[@class="tags"]')
+for i in type_tag:
+    types=i.text
+    Type_of_quote.append(types)
+=> 7
+driver = webdriver.Chrome()
+driver.get("https://www.jagranjosh.com/general-knowledge/list-of-all-prime-ministers-of-india-1473165149-1")
+data = []
+table = driver.find_elements(By.XPATH,'//table[@class="table4"]')
+rows = table.find_elements_By_tag_name('tr')
+for row in rows:
+  cols = row.find_elements_By_tag_name('td')
+if len(cols) == 4:
+  name = cols[0].text
+  born_dead = cols[1].text
+  term_of_office = cols[2].text
+  remarks = cols[3].text
+  data.append([name, born_dead, term_of_office, remarks])
+df = pd.DataFrame(data, columns=['Name', 'Born-Dead', 'Term of Office', 'Remarks'])
+
+=> 8 
+driver = webdriver.Chrome()
+driver.get("https://www.motor1.com/")
+car_names = driver.find_elements_by_xpath('//div[@class="article-content"]/h3')
+car_prices = driver.find_elements_by_xpath('//div[@class="article-content"]/p')
+data = []
+for name, price in zip(car_names, car_prices):data.append([name.text, price.text])
+df = pd.DataFrame(data, columns=['Car Name', 'Price'])
+print(df)
