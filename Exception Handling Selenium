@@ -1,1 +1,304 @@
-Exception han
+import selenium
+from selenium import webdriver
+import pandas as pd
+import warnings
+warnings.filterwarnings("ignore")
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchWindowException
+from selenium.common.exceptions import ElementNotInteractableException
+import time
+import requests
+import regex
+=> 1
+driver = webdriver.Edge()
+driver.get("https://www.amazon.in/")
+search = driver.find_element(By.ID,"twotabsearchtextbox")
+print("search")
+search_for=input()
+search.clear()
+search.send_keys(search_for)
+search_button = driver.find_element(By.ID,"nav-search-submit-button")
+search_button.click()
+=> 2
+start_page = 0
+end_page = 2
+urls = []
+for page in range(start_page,end_page):
+    page_urls = driver.find_elements_by_xpath('//a[@class="a-size-medium a-color-base a-text-normal"]')
+        for url in page_urls:
+            url = url.get_attribute('href')     
+            if url[0:4]=='http':                
+                urls.append(url)               
+        print("Product urls of page {} has been scraped.".format(page+1))
+        nxt_button = driver.find_element_by_xpath('//li[@class="s-pagination-item s-pagination-next s-pagination-button s-pagination-separator"]/a')      
+        if nxt_button.text == 'Next→':                                            
+            nxt_button.click()                                                 
+            time.sleep(5)                                                         
+    try
+    page_urls = driver.find_elements_by_xpath('//a[@class="a-size-medium a-color-base a-text-normal"]')
+    url = url.get_attribute('href')
+    except StaleElementReferenceException as e:                
+        print("Stale Exception")
+        next_page = nxt_button.get_attribute('href')        
+        driver.get(next_page)      
+brand_list=[]
+ 
+for a in urls:
+    driver.get(a)
+    try:
+        brand=driver.find_element_by_xpath('//table[@class="a-size-large product-title-word-break"]')
+        brand_list.append(brand.text)
+    except NoSuchElementException as e:
+        brand_list.append("-")
+title_list=[]
+try:
+   title=driver.find_element_by_xpath('//h1[@class="a-size-large product-title-word-break"]'')
+        title_list.append(title.text)
+    except NoSuchElementException as e:
+        title_list.append("-")
+rating_list=[]
+try:
+    rating=driver.find_element_by_xpath("//a[@class="a-popover-trigger a-declarative"]')
+    rating_list.append(rating.text.split("\n")[-1])
+    except NoSuchElementException as e:
+        rating_list.append("-")
+no_rating_list=[]
+price_list=[]
+return_list=[]
+availability_list=[]
+details_list=[]
+img_url_list=[]
+
+    try:
+        no_rating=driver.find_element_by_id("averageCustomerReviews")
+        no_rating_list.append(no_rating.text)
+    except NoSuchElementException as e:
+        no_rating_list.append("--")
+
+    try:
+        price=driver.find_element_by_xpath("//table[@class='a-lineitem']/tbody/tr[2]/td[2]/span")
+        price_list.append(price.text)
+    except NoSuchElementException as e:
+        price_list.append("--")  
+    
+    try:
+        returns=driver.find_element_by_xpath("//div[@class='a-row icon-farm-wrapper']/div[2]/span/div[2]/a")
+        return_list.append(returns.text)
+    except NoSuchElementException as e:
+        return_list.append("--")
+    
+    try:
+        availability=driver.find_element_by_xpath("//span[@class='a-size-medium a-color-success']")
+        availability_list.append(availability.text)
+    except NoSuchElementException as e:
+        availability_list.append("--")   
+    
+    try:
+        details=driver.find_element_by_xpath("//div[@class='a-row a-spacing-top-base']")
+        details_list.append(details.text.replace("\n"," "))
+    except NoSuchElementException as e:
+        details_list.append("--")
+        
+try:
+        img_url=driver.find_element_by_xpath("//div[@class='imgTagWrapper']/img")
+        img_url_list.append(img_url.get_attribute("src"))
+    except NoSuchElementException as e:
+        img_url_list.append("--")
+        
+print(brand_list[0:2])
+print(title_list[0:2])
+print(rating_list[0:2])
+print(no_rating_list[0:2])
+print(price_list[0:2])
+print(return_list[0:2])
+print(availability_list[0:2])
+print(details_list[0:1])
+print(img_url_list[0:2])
+df=pd.DataFrame({'Brand':brand_list,'Name of the product'=title_list,"Ratings":rating_list, "No of ratings":no_rating_list,'Price':price_list,'Return/Exchange':return_list,'Availability':availability_list,'Other details':details_list,'Product Urls':img_url_list})
+df
+=> 3
+driver = webdriver.Edge()
+driver.get("https://images.google.com/")
+product = driver.find_element(By.CLASS_NAME,"gLFyf")
+product.send_keys("Cars")
+search_button = driver.find_elements(By.XPATH,'/html/body/div[2]/div[2]/form/div[1]/div[1]/div[2]/button/div/span/svg')
+search_button.click()
+for i in range(10):
+    driver.execute_script("window.scrollBy(0,100)")
+    
+Img_urls = []
+images = driver.find_elements(By.XPATH,'//img[@class="YQ4gaf"]')
+for image in images:
+    source = image.get_attribute("src")
+    if source is not None:
+        if (source[0:4]=="http"):
+            Img_urls.append(source)
+for i in range(len(Img_urls)):
+    if i > 10:
+        breakBy.XPATH,
+    print("Downloading {0} of {1} images".format(i, 10))
+    response = requests.get(Img_urls[i])
+    file = open(r"C:\Users\abc\Desktop\data trained\INTSP with FLIP-ROBO\Imagesssss"+str(i)+".jpg","wb")
+    file.write(response.content)
+=> 4 
+driver = webdriver.Edge()
+driver.get("http://www.flipkart.com/")
+search_bar=driver.find_element(By.XPATH,'//div[@class="zDPmFV"]/input')
+search_bar.send_keys("smartphone")
+search_button=driver.find_element_by_xpath('//button[@class="MJG8Up"]')
+search_button.click()
+url_list=[]
+for i in driver.find_elements_by_xpath('//a[@class="KzDlHZ"]'):
+    url_list.append(i.get_attribute("href"))
+url_list[0:2]
+final_data = []
+for one_url in all_urls:
+    driver.get(one_url)
+    try:
+        sleep(5)
+        driver.find_element_by_xpath('//button[@class="_2KpZ6l _1FH0tX"]').click()
+        wait_for_page_load('//h1')    
+        brand_name = driver.find_element_by_xpath('//h1').text
+        smartphone_name = driver.find_element_by_xpath('//h1').text
+        colour = driver.find_element_by_xpath('//td[text()="Color"]/parent::*//li').text
+        RAM = driver.find_element_by_xpath('//td[text()="RAM"]/parent::*//li').text
+        storage_ROM = driver.find_element_by_xpath('//td[text()="Internal Storage"]/parent::*//li').text
+        primary_camera = driver.find_element_by_xpath('//td[text()="Primary Camera"]/parent::*//li').text
+        try:    
+            secondary_camera = driver.find_element_by_xpath('//td[text()="Secondary Camera"]/parent::*//li').text
+        except:
+            secondary_camera = '-'
+        try:    
+            display = driver.find_element_by_xpath('//td[text()="Display Type"]/parent::*//li').text
+        except:
+            display = '-'
+        display_size = driver.find_element_by_xpath('//td[text()="Display Size"]/parent::*//li').text
+        resolution = driver.find_element_by_xpath('//td[text()="Resolution"]/parent::*//li').text
+        try:
+            processor = driver.find_element_by_xpath('//td[text()="Processor Type"]/parent::*//li').text
+        except:
+            processor = '-'
+        try:
+            processor_cores = driver.find_element_by_xpath('//td[text()="Processor Core"]/parent::*//li').text
+        except:
+            processor = '-'
+        battery_capacity = driver.find_element_by_xpath('//td[text()="Battery Capacity"]/parent::*//li').text
+        price = driver.find_element_by_xpath('//div[@class="CEmiEU"]').text
+        product_url = one_url
+final_data.append({'brand_name':brand_name,'smartphone_name':smartphone_name,'colour':colour,'RAM':RAM,'storage_ROM':storage_ROM,'primary_camera':primary_camera,
+            'secondary_camera':secondary_camera,'display_size':display_size,'display':display,'resolution':resolution,'processor':processor,
+            'processor_cores':processor_cores,'battery_capacity':battery_capacity,'price':price,'product_url':product_url})
+data = pd.DataFrame(final_data)
+data
+=> 5 
+driver = webdriver.Edge()
+driver.get('https://www.google.com/maps/')
+try:
+    url_string = driver.current_url
+    print("https://www.google.com/maps/@19.358164,72.7150819,10.04z?entry=ttu", url_string)
+    lat_lng = re.findall(r'@(.*)data',url_string)
+    
+latitude, longitude, _ = current_url.split('@')[1].split('/')[0].split(',')
+print('latitude: ',latitude)
+print('longitude: ',longitude)
+=> 6 
+driver = webdriver.Edge()
+driver.get("https://www.digit.in/top-products/best-ai-laptops-in-india.html")
+all_laptop_title = driver.find_elements(By.XPATH,'//h3[@class="font130 mt0 mb10 mobilesblockdisplay "]/a')
+title
+all_name = []
+for one_title in all_laptop_title:
+    all_name.append(one_title.text)  
+name_series = pd.Series(all_name)
+name_series
+all_specs = driver.find_elements_by_xpath('//div[@class="Spcs-details"]')
+all_spec_list = []
+for one_spec in all_specs:
+    os_name = one_spec.find_element_by_xpath('.//td[text()="OS"]/parent::*/td[3]').text
+    display = one_spec.find_element_by_xpath('.//td[text()="Display"]/parent::*/td[3]').text
+    processor = one_spec.find_element_by_xpath('.//td[text()="Processor"]/parent::*/td[3]').text
+    memory = one_spec.find_element_by_xpath('.//td[text()="Memory"]/parent::*/td[3]').text
+    weight = one_spec.find_element_by_xpath('.//td[text()="Weight"]/parent::*/td[3]').text
+    dimension = one_spec.find_element_by_xpath('.//td[text()="Dimension"]/parent::*/td[3]').text
+    graphics_processor = one_spec.find_element_by_xpath('.//td[text()="Graphics Processor"]/parent::*/td[3]').text
+    all_spec_list.append({'os' : os_name,'display' : display,'processor' : processor,'memory' : memory,
+        'weight' : weight,'dimension' : dimension,'graphics_processor' : graphics_processor})
+df = pd.DataFrame(all_spec_list)
+df
+df['name'] = name_series
+df
+=> 7 
+driver = webdriver.Edge()
+driver.get("https://www.forbes.com/real-time-billionaires/#4ed720d03d78")
+rank = []
+name = []
+net_worth = []
+age = []
+citizenship = []
+source = []
+industry = []
+all_boxes = driver.find_elements_by_xpath('//div[@class="table-body"]/div/div[contains(@class,"table-row ")]')
+    for one_box in all_boxes:
+        rank = one_box.find_element_by_xpath('.//div[@class="rank"]').text
+        name = one_box.find_element_by_xpath('.//div[@class="personName"]').text
+        net_worth = one_box.find_element_by_xpath('.//div[@class="netWorth"]').text
+        age = one_box.find_element_by_xpath('.//div[@class="age"]').text
+        citizenship = one_box.find_element_by_xpath('.//div[@class="countryOfCitizenship"]').text
+        source = one_box.find_element_by_xpath('.//div[@class="source"]').text
+        industry = one_box.find_element_by_xpath('.//div[@class="category"]').text
+        all_list.append({'rank': rank,'name': name,'net_worth': net_worth,'age': age,'citizenship': citizenship,'source': source,'industry': industry})
+    if len(driver.find_elements_by_xpath('//button[contains(@class,"pagination-btn--next pagination-btn--disabled")]')) == 0:
+        driver.find_element_by_xpath('//button[contains(@class,"pagination-btn--next")]').click()    
+        
+df = pd.DataFrame(all_list)
+df
+=> 8
+driver = webdriver.Edge()
+driver.get('https://www.youtube.com/watch?v=kTJczUoc26U')
+wait_for_page_load('//ytd-comment-thread-renderer')
+i = 1 
+while True:
+    i += 500
+    driver.execute_script(f"window.scrollTo(0, {i});")
+    all_box = driver.find_elements_by_xpath('//ytd-comment-thread-renderer')
+    sleep(1)
+    if len(all_box) > 500:
+        break
+all_list = []
+for one_box in all_box:
+    comment = one_box.find_element_by_xpath('.//ytd-expander[@id="expander"]').text
+    upvote = one_box.find_element_by_xpath('.//span[@id="vote-count-middle"]').text
+    time = one_box.find_element_by_xpath('.//div[@id="header-author"]//yt-formatted-string/a').text
+    all_list.append({'comment' : comment,'upvote' : upvote,'time' : time})  
+df = pd.DataFrame(all_list)
+df
+=> 9
+driver = webdriver.Edge()
+driver.get('https://www.hostelworld.com/s?q=London,%20England&country=England&city=London&type=city&id=3')
+import requests
+from bs4 import BeautifulSoup
+
+url = "https://www.hostelworld.com/hostels/London"
+response = requests.get(url)
+soup = BeautifulSoup(response.content, "html.parser")
+
+hostels = soup.find_all("div", class_="fabresult")
+for hostel in hostels:
+    name = hostel.find("h2", class_="fabresult-title").text.strip()
+    distance = hostel.find("span", class_="distance").text.strip()
+    ratings = hostel.find("div", class_="rating").text.strip()
+    total_reviews = hostel.find("div", class_="reviews").text.strip()
+    overall_reviews = hostel.find("div", class_="overall").text.strip()
+    privates_price = hostel.find("div", class_="price-col").find("div", class_="price").text.strip()
+    dorms_price = hostel.find("div", class_="price-col").find("div", class_="price").find_next_sibling("div", class_="price").text.strip()
+    facilities = hostel.find("div", class_="facilities").text.strip()
+    description = hostel.find("div", class_="description").text.strip()
+
+df=pd.DataFrame({"Hostel Name":name,"Distance from City Centre":distance,"Ratings": ratings,"Total Reviews":total_reviews,
+           "Overall Reviews:", overall_reviews,"Privates from Price":privates_price,"Dorms from Price":dorms_price,
+           "Facilities";facilities,"Property Description":description})
+df
