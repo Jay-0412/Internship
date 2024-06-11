@@ -1,1 +1,212 @@
+from bs4 import BeautifulSoup
+import requests
+import pandas as pd
+import selenium
+from selenium import webdriver
+import warnings
+warnings.filterwarnings("ignore")
+from selenium.webdriver.common.by import By
+import time
+from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchWindowException
+from selenium.common.exceptions import ElementNotInteractableException
+=> 1
+driver = webdriver.Chrome()
+driver.get("https://en.wikipedia.org/wiki/List_of_most-viewed_YouTube_videos")
+full_page = driver.find_elements(By.XPATH,'//div[@id="mw-content-text"]//table[@class="sortable wikitable sticky-header static-row-numbers sort-under col3center col4right jquery-tablesorter"]//tbody/tr')
+full_table = []
+for i in full_page[:30]:
+    rank_tag = i.find_elements(By.XPATH,".//td")[0].text
+    name_tag = i.find_elements(By.XPATH,".//td")[1].text
+    artist_tag = i.find_elements(By.XPATH,".//td")[2].text
+    upload_date = i.find_elements(By.XPATH,".//td")[4].text
+    views_tag = i.find_elements(By.XPATH,".//td")[3].text
+    
+    full_table.append({"Rank":rank_tag,"Name":name_tag,
+                      "Artist":artist_tag,"Upload_Date":upload_date,"Views":views_tag})
+df = pd.DataFrame(full_table)
+df
+=> 2
+driver = webdriver.Chrome()
+driver.get("https://www.bcci.tv/")
+fixtures = driver.find_element(By.XPATH,'/html/body/header/div[3]/div[2]/ul/div[1]/a[2]').get_attribute("href")
+print(fixtures)
+driver.get(fixtures)
+Series = []
+Place = []
+Date = []
+Time = []
+series_tag = driver.find_elements(By.XPATH,'//h5[@class="match-tournament-name ng-binding"]')
+for i in series_tag:
+    s=i.text
+    Series.append(s)
+    place_tag = driver.find_elements(By.XPATH,'//div[@class="match-venue ng-scope"]')
+for i in place_tag:
+    p=i.text
+    Place.append(p)
+    date_tag = driver.find_elements(By.XPATH,'//div[@class="match-dates ng-binding"]')
+for i in date_tag:
+    d=i.text
+    Date.append(d)
+    time_tag = driver.find_elements(By.XPATH,'//div[@class="match-time no-margin ng-binding"]')
+for i in time_tag:
+    t=i.text
+    Time.append(t)
+    print(len(Series),len(Place),len(Date),len(Time))
+    df = pd.DataFrame({"SERIES":Series,"PLACE":Place,"DATE":Date,"TIME":Time})
+df
+=> 3
+driver = webdriver.Chrome()
+driver.get("http://statisticstimes.com/")
+button_E = driver.find_element(By.XPATH,'/html/body/div[2]/div[1]/div[2]/div[2]/button')
+button_E.click()
+select_India = driver.find_element(By.XPATH,'/html/body/div[2]/div[1]/div[2]/div[2]/div/a[3]').get_attribute("href")
+print(select_India)
+driver.get(select_India)
+GDP_of_states = driver.find_element(By.XPATH,'/html/body/div[2]/div[2]/div[2]/ul/li[1]/a').get_attribute("href")
+print(GDP_of_states)
+driver.get(GDP_of_states)
+Ranks = []
+rank_tag = driver.find_elements(By.XPATH,'//table[@id="table_id"]/tbody/tr/td[1]')
+for i in rank_tag:
+    R=i.text
+    Ranks.append(R)
+    States = []
+state_tag = driver.find_elements(By.XPATH,'//table[@id="table_id"]/tbody/tr/td[2]')
+for i in state_tag:
+    S=i.text
+    States.append(S)
+    GSDP1920 = []
+gdp1920_tag = driver.find_elements(By.XPATH,'//table[@id="table_id"]/tbody/tr/td[3]')
+for i in gdp1920_tag:
+    Gdp=i.text
+    GSDP1920.append(Gdp)
+    GSDP1819 = []
+gdp1819_tag = driver.find_elements(By.XPATH,'//table[@id="table_id"]/tbody/tr/td[4]')
+for i in gdp1819_tag:
+    GDp=i.text
+    GSDP1819.append(GDp)
+    share1819 = []
+share1819_tag = driver.find_elements(By.XPATH,'//table[@id="table_id"]/tbody/tr/td[5]')
+for i in share1819_tag:
+    S=i.text
+    share1819.append(S)
+    GDPbill = []
+gdp_tag = driver.find_elements(By.XPATH,'//table[@id="table_id"]/tbody/tr/td[6]')
+for i in gdp_tag:
+    G=i.text
+    GDPbill.append(G)
+    print(len(Ranks),len(States),len(GSDP1920),len(GSDP1819),len(share1819),len(GDPbill))
+    df = pd.DataFrame({"RANKS":Ranks,"STATES":States,"GSDP(19-20)":GSDP1920,"GSDP(18-19)":GSDP1819,
+                   "SHARE(18-19)":share1819,"GDP_BILLION":GDPbill})
+df
+=> 4
+driver = webdriver.Chrome()
+driver.get("https://github.com/trending")
+rep_title = []
+rep_tag = driver.find_elements(By.XPATH,'//h2[@class="h3 lh-condensed"]/a')
+for i in rep_tag:
+    R=i.text
+    rep_title.append(R)
+    rep_desc = []
+repdesc_tag = driver.find_elements(By.XPATH,'//p[@class="col-9 color-fg-muted my-1 pr-4"]/p')
+for i in repdesc_tag:
+    Ds=i.text
+    rep_desc.append(Ds)
+    contri = []
+cont_tag = driver.find_elements(By.XPATH,'//div[@class="f6 color-fg-muted mt-2"]/a')
+for i in cont_tag:
+    C=i.text
+    contri.append(C)
+    lang = []
+lang_tag = driver.find_elements(By.XPATH,'//span[@itemprop="programmingLanguage"]')
+for i in lang_tag:
+    L=i.text
+    lang.append(L)
+    print(len(rep_title),len(rep_desc),len(contri),len(lang))
+    => 5
+    driver = webdriver.Chrome()
+driver.get("https:/www.billboard.com/")
+chart_b = driver.find_element(By.XPATH,'/html/body/div[3]/header/div/div[1]/div/div/div[2]/div/nav/ul/li[1]/a')
+chart_b.click()
+view_b = driver.find_element(By.XPATH,'/html/body/div[3]/main/div[2]/div[1]/div[1]/div/div/div[3]/a')
+view_b.click()
+table = driver.find_element(By_XPATH,'//li[contains(@class,"list__element")]/button')
+all_list = []
+for one_box in table:
 
+    song_name = one_box.find_element_by_xpath('.//span[contains(@class,"chart-element__information__song")]').text
+    artist_name = one_box.find_element_by_xpath('.//span[contains(@class,"chart-element__information__artist")]').text
+    last_week_rank = one_box.find_element_by_xpath('.//span[contains(@class,"text--last")]').get_attribute('innerHTML')
+    peak_rank = one_box.find_element_by_xpath('.//span[contains(@class,"text--peak")]').get_attribute('innerHTML')
+    weeks_on_board = one_box.find_element_by_xpath('.//span[contains(@class,"text--week")]').get_attribute('innerHTML')
+
+all_list.append({'song_name': song_name,'artist_name': artist_name,'last_week_rank': last_week_rank,
+        'peak_rank': peak_rank,'weeks_on_board': weeks_on_board})
+df = pd.DataFrame(all_list)
+df
+=> 6
+driver = webdriver.Chrome()
+driver.get("https://www.theguardian.com/news/datablog/2012/aug/09/best-selling-books-all-time-fifty-shades-grey-compare")
+table = driver.find_elements(By.XPATH,'//tbody/tr')
+full_table = []
+for i in table:
+    book_name = i.find_elements(By.XPATH,'.//td')[1].text
+    author = i.find_elements(By.XPATH,'.//td')[2].text
+    sold = i.find_elements(By.XPATH,'.//td')[3].text
+    publish = i.find_elements(By.XPATH,'.//td')[4].text
+    genre = i.find_elements(By.XPATH,'.//td')[5].text
+    full_table.append({"BOOK_NAME":book_name,"AUTHOR_NAME":author,"VOLUMES_SOLD":sold,
+                  "PUBLISHER":publish,"GENRE":genre})
+    df  = pd.DataFrame(full_table)
+    df
+    => 7
+    driver = webdriver.Chrome()
+driver.get("https://www.imdb.com/list/ls095964455/")
+#page showing error 404 and nothing is reflecting on webpage
+=>8
+driver = webdriver.Chrome()
+driver.get("https://archive.ics.uci.edu/")
+view_all = driver.find_element(By.XPATH,'/html/body/div/div[1]/div[1]/main/div/div[1]/div/div/div/a[1]').get_attribute('href')
+print(view_all)
+driver.get(view_all)
+dataset_name=[]
+for names in driver.find_elements(By.XPATH,'//h2[@class="truncate text-primary"]/a'):
+    dataset_name.append(names.text)
+print(dataset_name)
+print(len(dataset_name))
+data_type = []
+for types in driver.find_elements(By.XPATH,'//div[@class="col-span-3 flex items-center gap-2"][2]/span'):
+    data_type.append(types.text)
+print(data_type)
+len(data_type)
+task = []
+for t in driver.find_elements(By.XPATH,'//div[@class="col-span-3 flex items-center gap-2"][1]/span'):
+    task.append(t.text)
+print(task)
+len(task)
+attribute = []
+for attri in driver.find_elements(By.XPATH,'//tbody[@class="border"]/tr/td[2]'):
+    attribute.append(attri.text)
+print(attribute)
+len(attribute)
+instance = []
+for i in driver.find_elements(By.XPATH,'//div[@class="col-span-3 flex items-center gap-2"][3]/span'):
+    instance.append(i.text)
+print(instance)
+len(instance)
+number_attri = []
+for i in driver.find_elements(By.XPATH,'//div[@class="col-span-3 flex items-center gap-2"][4]/span'):
+    number_attri.append(i.text)
+print(number_attri)
+len(number_attri)
+year = []
+for y in driver.find_elements(By.XPATH,'//tbody[@class="border"]/tr/td[3]'):
+    year.append(y.text)
+print(year)
+len(year)
+df = pd.DataFrame({"DATASET_NAME":dataset_name,"DATA_TYPE":data_type,"TASK":task,"ATTRIBUTE_TYPE":attribute,
+                  "NUMBER_OF_INSTANCE":instance,"NUMBER_OF_ATTRIBUTE":number_attri,"YEAR":year})
+df
